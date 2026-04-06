@@ -43,10 +43,27 @@ export type Submission = {
  *
  * Adjust column indices below if your sheet differs.
  */
+// Mock data for preview when env vars aren't set
+const MOCK_CLASSMATES: Classmate[] = [
+  { name: "Jennifer Martinez", firstName: "Jennifer", lastName: "Martinez", email: "", phone: "", city: "Austin", state: "TX", deceased: false, isMostWanted: true },
+  { name: "Michael Chen", firstName: "Michael", lastName: "Chen", email: "", phone: "", city: "San Francisco", state: "CA", deceased: false, isMostWanted: true },
+  { name: "Sarah Johnson", firstName: "Sarah", lastName: "Johnson", email: "", phone: "", city: "Denver", state: "CO", deceased: false, isMostWanted: true },
+  { name: "David Williams", firstName: "David", lastName: "Williams", email: "", phone: "", city: "Houston", state: "TX", deceased: false, isMostWanted: true },
+  { name: "Lisa Thompson", firstName: "Lisa", lastName: "Thompson", email: "", phone: "", city: "Seattle", state: "WA", deceased: false, isMostWanted: true },
+  { name: "Robert Garcia", firstName: "Robert", lastName: "Garcia", email: "", phone: "", city: "Phoenix", state: "AZ", deceased: false, isMostWanted: true },
+  { name: "Amanda Brown", firstName: "Amanda", lastName: "Brown", email: "", phone: "", city: "Dallas", state: "TX", deceased: false, isMostWanted: true },
+  { name: "Christopher Lee", firstName: "Christopher", lastName: "Lee", email: "", phone: "", city: "Portland", state: "OR", deceased: false, isMostWanted: true },
+  { name: "Emily Davis", firstName: "Emily", lastName: "Davis", email: "", phone: "", city: "Nashville", state: "TN", deceased: false, isMostWanted: true },
+  { name: "James Wilson", firstName: "James", lastName: "Wilson", email: "james@email.com", phone: "555-1234", city: "Houston", state: "TX", deceased: false, isMostWanted: false },
+  { name: "Michelle Anderson", firstName: "Michelle", lastName: "Anderson", email: "michelle@email.com", phone: "", city: "Houston", state: "TX", deceased: false, isMostWanted: false },
+  { name: "Daniel Taylor", firstName: "Daniel", lastName: "Taylor", email: "", phone: "", city: "Houston", state: "TX", deceased: true, isMostWanted: false },
+  { name: "Rachel Moore", firstName: "Rachel", lastName: "Moore", email: "", phone: "", city: "Houston", state: "TX", deceased: true, isMostWanted: false },
+]
+
 export async function getClassmates(): Promise<Classmate[]> {
   if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !process.env.GOOGLE_PRIVATE_KEY) {
-    // Return empty array in dev when env vars are not yet set
-    return []
+    // Return mock data in dev when env vars are not yet set
+    return MOCK_CLASSMATES
   }
 
   try {
