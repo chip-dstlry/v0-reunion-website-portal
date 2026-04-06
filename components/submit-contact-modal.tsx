@@ -69,6 +69,12 @@ export function SubmitContactModal({ classmate, onClose, onSuccess }: SubmitCont
         }),
       })
       // no-cors means we can't read the response — assume success
+      // Clear form so the next classmate starts fresh
+      setSubmitterName("")
+      setSubmitterEmail("")
+      setClassmateEmail("")
+      setClassmatePhone("")
+      setMarriedName("")
       onSuccess()
     } catch {
       setError("Something went wrong. Please try again.")
