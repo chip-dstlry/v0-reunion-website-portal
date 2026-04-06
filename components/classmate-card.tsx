@@ -15,24 +15,24 @@ export function ClassmateCard({ classmate, onKnowWhere }: ClassmateCardProps) {
     [classmate.city, classmate.state].filter(Boolean).join(", ") || "Location unknown"
 
   return (
-    <div className="border border-white/15 rounded p-6 text-center hover:border-white/30 transition-colors">
+    <div className="bg-white border border-charcoal/10 rounded-xl p-6 text-center hover:shadow-md transition-shadow">
       {/* Avatar */}
-      <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mx-auto mb-4">
-        <span className="font-serif text-white/70 text-xl">{initials || "?"}</span>
+      <div className="w-16 h-16 rounded-full bg-cream border border-charcoal/10 flex items-center justify-center mx-auto mb-4">
+        <span className="font-serif text-charcoal text-xl">{initials || "?"}</span>
       </div>
       
       {/* Name */}
-      <p className="font-serif text-white text-lg mb-1">
+      <p className="font-serif text-charcoal text-lg font-semibold mb-1">
         {classmate.name || "Unknown"}
       </p>
       
       {/* Location */}
-      <p className="text-white/40 text-sm mb-6">{location}</p>
+      <p className="text-gray text-sm mb-6">{location}</p>
 
-      {/* CTA - styled like mhs1991.com buttons */}
+      {/* CTA - maroon button like mhs1991.com, min 48px for touch */}
       <button
         onClick={() => onKnowWhere(classmate)}
-        className="w-full py-3 rounded border border-white/30 text-white/80 text-xs tracking-wider uppercase hover:bg-white hover:text-black transition-colors"
+        className="w-full py-3 min-h-[48px] rounded bg-maroon text-white text-sm font-semibold uppercase tracking-wider hover:bg-maroon-dark transition-colors"
       >
         I Know Them
       </button>

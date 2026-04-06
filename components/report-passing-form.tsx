@@ -64,8 +64,8 @@ export function ReportPassingForm({ classmates, onSuccess }: ReportPassingFormPr
   if (submitted) {
     return (
       <div className="text-center py-8">
-        <div className="font-serif text-white text-xl mb-2">Thank you for letting us know</div>
-        <p className="text-white/50 text-sm">
+        <div className="font-serif text-charcoal text-xl font-semibold mb-2">Thank you for letting us know</div>
+        <p className="text-gray text-sm">
           The reunion team will handle this with care and update our records.
         </p>
       </div>
@@ -73,10 +73,10 @@ export function ReportPassingForm({ classmates, onSuccess }: ReportPassingFormPr
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5 max-w-md mx-auto">
+    <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-charcoal/10 p-6 flex flex-col gap-5 max-w-md mx-auto">
       {/* Classmate search */}
       <label className="flex flex-col gap-1.5 relative">
-        <span className="text-xs text-white/50 uppercase tracking-wide">Classmate Name</span>
+        <span className="text-xs text-gray uppercase tracking-wide font-medium">Classmate Name</span>
         <input
           type="text"
           value={search}
@@ -88,20 +88,20 @@ export function ReportPassingForm({ classmates, onSuccess }: ReportPassingFormPr
           onFocus={() => setShowDropdown(true)}
           onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
           placeholder="Start typing a name..."
-          className="bg-transparent border border-white/20 rounded px-3 py-3 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-white/50"
+          className="bg-cream border border-charcoal/15 rounded px-4 py-3 text-charcoal placeholder:text-gray text-base focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon"
         />
         {showDropdown && search.length > 1 && filtered.length > 0 && (
-          <ul className="absolute top-full mt-1 left-0 right-0 bg-[#111] border border-white/20 rounded shadow-xl z-20 max-h-48 overflow-y-auto">
+          <ul className="absolute top-full mt-1 left-0 right-0 bg-white border border-charcoal/15 rounded-lg shadow-xl z-20 max-h-48 overflow-y-auto">
             {filtered.map((c) => (
               <li key={c.name}>
                 <button
                   type="button"
                   onMouseDown={() => selectClassmate(c)}
-                  className="w-full text-left px-3 py-2 text-white text-sm hover:bg-white/10 transition-colors"
+                  className="w-full text-left px-4 py-3 text-charcoal text-base hover:bg-cream transition-colors min-h-[48px]"
                 >
                   {c.name}
                   {c.city || c.state ? (
-                    <span className="text-white/40 ml-2 text-xs">
+                    <span className="text-gray ml-2 text-sm">
                       {[c.city, c.state].filter(Boolean).join(", ")}
                     </span>
                   ) : null}
@@ -113,43 +113,43 @@ export function ReportPassingForm({ classmates, onSuccess }: ReportPassingFormPr
       </label>
 
       <label className="flex flex-col gap-1.5">
-        <span className="text-xs text-white/50 uppercase tracking-wide">Date of Passing (optional)</span>
+        <span className="text-xs text-gray uppercase tracking-wide font-medium">Date of Passing (optional)</span>
         <input
           type="date"
           value={dateOfPassing}
           onChange={(e) => setDateOfPassing(e.target.value)}
-          className="bg-transparent border border-white/20 rounded px-3 py-3 text-white text-sm focus:outline-none focus:border-white/50"
+          className="bg-cream border border-charcoal/15 rounded px-4 py-3 text-charcoal text-base focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon"
         />
       </label>
 
       <label className="flex flex-col gap-1.5">
-        <span className="text-xs text-white/50 uppercase tracking-wide">Source / Notes (optional)</span>
+        <span className="text-xs text-gray uppercase tracking-wide font-medium">Source / Notes (optional)</span>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="How did you hear about this? Obituary link, mutual friend, etc."
           rows={3}
-          className="bg-transparent border border-white/20 rounded px-3 py-3 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-white/50 resize-none"
+          className="bg-cream border border-charcoal/15 rounded px-4 py-3 text-charcoal placeholder:text-gray text-base focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon resize-none"
         />
       </label>
 
       <label className="flex flex-col gap-1.5">
-        <span className="text-xs text-white/50 uppercase tracking-wide">Your Name (optional)</span>
+        <span className="text-xs text-gray uppercase tracking-wide font-medium">Your Name (optional)</span>
         <input
           type="text"
           value={submittedBy}
           onChange={(e) => setSubmittedBy(e.target.value)}
           placeholder="So the team can follow up if needed"
-          className="bg-transparent border border-white/20 rounded px-3 py-3 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-white/50"
+          className="bg-cream border border-charcoal/15 rounded px-4 py-3 text-charcoal placeholder:text-gray text-base focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon"
         />
       </label>
 
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-red-600 text-sm">{error}</p>}
 
       <button
         type="submit"
         disabled={loading}
-        className="py-3 rounded border border-white/30 text-white text-xs uppercase tracking-wider hover:bg-white hover:text-black disabled:opacity-50 transition-colors"
+        className="py-3 min-h-[48px] rounded bg-maroon text-white text-sm uppercase tracking-wider font-semibold hover:bg-maroon-dark disabled:opacity-50 transition-colors"
       >
         {loading ? "Submitting..." : "Submit Report"}
       </button>
