@@ -1,10 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import type { Classmate } from "@/lib/google-sheets"
-
-const APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzuUiFdsk2hWQh0C9oF2CTRD7Iwike432tyRh5ayEmrjhiImmu2KKBmQmZB3MH-zlgvqA/exec"
+import { useIsMobile } from "@/lib/use-is-mobile"
+import { APPS_SCRIPT_URL } from "@/lib/config"
 
 const C = { cream: "#f5f0e6", white: "#ffffff", maroon: "#8b1a1a", charcoal: "#2d2d2d", gray: "#888888", border: "rgba(0,0,0,0.1)" }
 
@@ -31,9 +30,19 @@ interface SubmitContactModalProps {
 export function SubmitContactModal({ classmate, onClose, onSuccess }: SubmitContactModalProps) {
   const [submitterName,  setSubmitterName]  = useState("")
   const [submitterEmail, setSubmitterEmail] = useState("")
-  const [contactInfo,    setContactInfo]    = useState("")
+  const [classmateEmail, setClassmateEmail] = useState("")
+  const [classmatePhone, setClassmatePhone] = useState("")
+  const [marriedName,    setMarriedName]    = useState("")
   const [loading, setLoading] = useState(false)
   const [error,   setError]   = useState("")
+  const mobile = useIsMobile()
+
+  useEffect(() => {
+    if (!classmate) return
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose() }
+    window.addEventListener("keydown", handler)
+    return () => window.removeEventListener("keydown", handler)
+  }, [classmate, onClose])
 
   if (!classmate) return null
 
@@ -41,7 +50,7 @@ export function SubmitContactModal({ classmate, onClose, onSuccess }: SubmitCont
     e.preventDefault()
     if (!submitterName.trim()) { setError("Please enter your name."); return }
     if (!submitterEmail.trim()) { setError("Please enter your email."); return }
-    if (!contactInfo.trim()) { setError("Please enter the contact info you have."); return }
+    if (!classmateEmail.trim() && !classmatePhone.trim()) { setError("Please enter at least an email or phone number."); return }
     setLoading(true)
     setError("")
     try {
@@ -54,7 +63,9 @@ export function SubmitContactModal({ classmate, onClose, onSuccess }: SubmitCont
           classmateName:  classmate!.name,
           submitterName,
           submitterEmail,
-          contactInfo,
+          classmateEmail: classmateEmail.trim(),
+          classmatePhone: classmatePhone.trim(),
+          marriedName:    marriedName.trim(),
         }),
       })
       // no-cors means we can't read the response — assume success
@@ -71,10 +82,10 @@ export function SubmitContactModal({ classmate, onClose, onSuccess }: SubmitCont
       role="dialog"
       aria-modal="true"
       aria-label={`Submit contact info for ${classmate.name}`}
-      style={{ position: "fixed", inset: 0, zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, backgroundColor: "rgba(0,0,0,0.5)" }}
+      style={{ position: "fixed", inset: 0, zIndex: 50, display: "flex", alignItems: mobile ? "flex-end" : "center", justifyContent: "center", padding: mobile ? 0 : 16, backgroundColor: "rgba(0,0,0,0.5)" }}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div style={{ backgroundColor: C.white, borderRadius: 12, width: "100%", maxWidth: 440, boxShadow: "0 20px 60px rgba(0,0,0,0.2)", maxHeight: "90vh", overflowY: "auto" }}>
+      <div style={{ backgroundColor: C.white, borderRadius: mobile ? "16px 16px 0 0" : 12, width: "100%", maxWidth: mobile ? "100%" : 440, boxShadow: "0 20px 60px rgba(0,0,0,0.2)", maxHeight: mobile ? "92vh" : "90vh", overflowY: "auto" }}>
         {/* Header */}
         <div style={{ padding: "20px 24px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
           <div>
@@ -103,15 +114,18 @@ export function SubmitContactModal({ classmate, onClose, onSuccess }: SubmitCont
           </label>
 
           <label style={labelStyle}>
-            <span style={labelTextStyle}>Contact Info You Have <span style={{ color: C.maroon }}>*</span></span>
-            <textarea
-              value={contactInfo}
-              onChange={(e) => setContactInfo(e.target.value)}
-              placeholder="Their email, phone, Facebook profile, city they live in, etc."
-              rows={4}
-              style={{ ...inputStyle, resize: "none" }}
-              required
-            />
+            <span style={labelTextStyle}>Their Email</span>
+            <input type="email" value={classmateEmail} onChange={(e) => setClassmateEmail(e.target.value)} placeholder="their@email.com" style={inputStyle} />
+          </label>
+
+          <label style={labelStyle}>
+            <span style={labelTextStyle}>Their Phone</span>
+            <input type="tel" value={classmatePhone} onChange={(e) => setClassmatePhone(e.target.value)} placeholder="(555) 555-5555" style={inputStyle} />
+          </label>
+
+          <label style={labelStyle}>
+            <span style={labelTextStyle}>Married Name (optional)</span>
+            <input type="text" value={marriedName} onChange={(e) => setMarriedName(e.target.value)} placeholder="Current last name if different" style={inputStyle} />
           </label>
 
           {error && <p style={{ color: "#dc2626", fontSize: "0.875rem", margin: 0 }}>{error}</p>}

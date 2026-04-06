@@ -2,9 +2,8 @@
 
 import { useState } from "react"
 import type { Classmate } from "@/lib/google-sheets"
-
-const APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzuUiFdsk2hWQh0C9oF2CTRD7Iwike432tyRh5ayEmrjhiImmu2KKBmQmZB3MH-zlgvqA/exec"
+import { useIsMobile } from "@/lib/use-is-mobile"
+import { APPS_SCRIPT_URL } from "@/lib/config"
 
 const C = { cream: "#f5f0e6", white: "#ffffff", maroon: "#8b1a1a", charcoal: "#2d2d2d", gray: "#888888", border: "rgba(0,0,0,0.1)" }
 
@@ -36,6 +35,7 @@ export function ReportPassingForm({ classmates, onSuccess }: ReportPassingFormPr
   const [loading,  setLoading]  = useState(false)
   const [error,    setError]    = useState("")
   const [submitted, setSubmitted] = useState(false)
+  const mobile = useIsMobile()
 
   const filtered = classmates
     .filter((c) => !c.deceased && c.name.toLowerCase().includes(search.toLowerCase()))
@@ -85,7 +85,7 @@ export function ReportPassingForm({ classmates, onSuccess }: ReportPassingFormPr
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ backgroundColor: C.white, borderRadius: 12, border: `1px solid ${C.border}`, padding: 24, display: "flex", flexDirection: "column", gap: 18, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+    <form onSubmit={handleSubmit} style={{ backgroundColor: C.white, borderRadius: 12, border: `1px solid ${C.border}`, padding: mobile ? 16 : 24, display: "flex", flexDirection: "column", gap: mobile ? 14 : 18, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
       {/* Classmate autocomplete */}
       <label style={{ display: "flex", flexDirection: "column", gap: 6, position: "relative" }}>
         <span style={labelTextStyle}>Classmate Name</span>

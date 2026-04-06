@@ -11,28 +11,27 @@ export function ClassmateCard({ classmate, onKnowWhere }: ClassmateCardProps) {
   const initials =
     (classmate.firstName?.[0] ?? "") + (classmate.lastName?.[0] ?? "")
 
-  const location =
-    [classmate.city, classmate.state].filter(Boolean).join(", ") || "Location unknown"
+  const location = "Contact Info Unknown"
 
   return (
-    <div style={{ backgroundColor: "#ffffff", border: "1px solid rgba(0,0,0,0.08)" }} className="rounded-xl p-6 text-center hover:shadow-md transition-shadow flex flex-col">
+    <div style={{ backgroundColor: "#ffffff", border: "1px solid rgba(0,0,0,0.08)" }} className="rounded-xl p-5 sm:p-6 text-center hover:shadow-md transition-shadow flex flex-col">
       {/* Avatar */}
       <div
         style={{ backgroundColor: "#e8e0d4" }}
-        className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 flex-shrink-0"
+        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 flex-shrink-0"
       >
-        <span style={{ color: "#8b1a1a" }} className="font-serif text-lg font-bold">
+        <span style={{ color: "#8b1a1a" }} className="font-serif text-base sm:text-lg font-bold">
           {initials || "?"}
         </span>
       </div>
 
       {/* Name */}
-      <p style={{ color: "#2d2d2d" }} className="font-serif text-lg font-semibold mb-1 leading-snug">
+      <p style={{ color: "#2d2d2d" }} className="font-serif text-base sm:text-lg font-semibold mb-1 leading-snug">
         {classmate.name || "Unknown"}
       </p>
 
       {/* Location */}
-      <p style={{ color: "#888888" }} className="text-sm mb-5">
+      <p style={{ color: "#888888" }} className="text-xs sm:text-sm mb-4 sm:mb-5">
         {location}
       </p>
 

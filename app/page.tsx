@@ -3,9 +3,7 @@
 import { useState, useEffect } from "react"
 import { PortalClient } from "@/components/portal-client"
 import type { Classmate, SheetStats } from "@/lib/google-sheets"
-
-const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/1SuTA0dBUb_hcxxuTiLQNS6XlHdFSuXT0PSsp_Vbbg9k/export?format=csv&gid=1868777450"
+import { CSV_URL } from "@/lib/config"
 
 const C = { cream: "#f5f0e6", creamDark: "#e8e0d4", charcoal: "#2d2d2d", gray: "#888888", maroon: "#8b1a1a", white: "#ffffff" }
 
@@ -35,14 +33,21 @@ function parseCSV(text: string): { classmates: Classmate[]; stats: SheetStats } 
     const email        = (row[5] ?? "").trim()
     const phone        = (row[7] ?? "").trim()
     const deceased     = (row[15] ?? "").trim().toLowerCase() === "yes"
-    const city         = (row[19] ?? "").trim()
-    const state        = (row[20] ?? "").trim()
-    const jobTitle     = (row[21] ?? "").trim()
-    const employer     = (row[22] ?? "").trim()
+    const city         = (row[17] ?? "").trim()
+    const state        = (row[18] ?? "").trim()
+    // Column T (index 19) is "Job Title" for living classmates,
+    // but holds the date(s) of passing for deceased classmates.
+    const colT         = (row[19] ?? "").trim()
+    const jobTitle     = deceased ? "" : colT
+    const deceasedDate = deceased ? colT : ""
+    const employer     = (row[20] ?? "").trim()
 
     const displayLast  = currentLast || maidenLast
     const displayFirst = commonFirst || officialName.split(",")[1]?.trim().split(" ")[0] || ""
-    const name         = [displayFirst, displayLast].filter(Boolean).join(" ")
+    const nameParts    = [displayFirst, displayLast].filter(Boolean).join(" ")
+    const name         = (currentLast && maidenLast && currentLast !== maidenLast)
+      ? `${nameParts} (${maidenLast})`
+      : nameParts
 
     return {
       name,
@@ -55,6 +60,7 @@ function parseCSV(text: string): { classmates: Classmate[]; stats: SheetStats } 
       jobTitle,
       employer,
       deceased,
+      deceasedDate,
       isMostWanted: !email && !phone && !deceased,
     }
   }).sort((a, b) => a.lastName.localeCompare(b.lastName))
@@ -67,16 +73,16 @@ function parseCSV(text: string): { classmates: Classmate[]; stats: SheetStats } 
   return { classmates, stats }
 }
 
-// Skeleton card
+// Skeleton card — responsive to viewport
 function Skeleton() {
   return (
     <div style={{ backgroundColor: C.cream, minHeight: "100vh" }}>
       {/* Hero skeleton */}
       <div style={{ backgroundColor: C.cream, textAlign: "center", padding: "2rem 1rem 3rem" }}>
-        <div style={{ maxWidth: 480, margin: "0 auto 2rem", backgroundColor: C.creamDark, borderRadius: 16, height: 220, animation: "pulse 1.5s ease-in-out infinite" }} />
-        <div style={{ height: 40, width: 320, backgroundColor: C.creamDark, borderRadius: 8, margin: "0 auto 12px" }} />
-        <div style={{ height: 28, width: 200, backgroundColor: C.creamDark, borderRadius: 8, margin: "0 auto 12px" }} />
-        <div style={{ height: 22, width: 260, backgroundColor: C.creamDark, borderRadius: 8, margin: "0 auto" }} />
+        <div style={{ maxWidth: 480, width: "85%", margin: "0 auto 2rem", backgroundColor: C.creamDark, borderRadius: 16, height: 220, animation: "pulse 1.5s ease-in-out infinite" }} />
+        <div style={{ height: 40, width: "min(320px, 80%)", backgroundColor: C.creamDark, borderRadius: 8, margin: "0 auto 12px" }} />
+        <div style={{ height: 28, width: "min(200px, 60%)", backgroundColor: C.creamDark, borderRadius: 8, margin: "0 auto 12px" }} />
+        <div style={{ height: 22, width: "min(260px, 70%)", backgroundColor: C.creamDark, borderRadius: 8, margin: "0 auto" }} />
       </div>
       {/* Stats skeleton */}
       <div style={{ backgroundColor: C.creamDark, padding: "2.5rem 1rem" }}>
@@ -91,10 +97,10 @@ function Skeleton() {
       </div>
       {/* Cards skeleton */}
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "3rem 1rem" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "1.25rem" }}>
-          {Array.from({ length: 9 }).map((_, i) => (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(260px, 100%), 1fr))", gap: "1.25rem" }}>
+          {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} style={{ backgroundColor: C.white, borderRadius: 12, padding: 24, boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
-              <div style={{ width: 64, height: 64, borderRadius: "50%", backgroundColor: C.creamDark, margin: "0 auto 16px" }} />
+              <div style={{ width: 56, height: 56, borderRadius: "50%", backgroundColor: C.creamDark, margin: "0 auto 16px" }} />
               <div style={{ height: 20, width: "70%", backgroundColor: C.creamDark, borderRadius: 6, margin: "0 auto 8px" }} />
               <div style={{ height: 14, width: "50%", backgroundColor: C.creamDark, borderRadius: 6, margin: "0 auto 20px" }} />
               <div style={{ height: 44, backgroundColor: C.maroon, borderRadius: 6, opacity: 0.15 }} />
