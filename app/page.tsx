@@ -119,26 +119,26 @@ export default function Page() {
 
   useEffect(() => {
     let cancelled = false
+
+    // Show cached data immediately for snappy first paint, then refetch in background.
     const cached = sessionStorage.getItem("mhs91_data")
-    const cachedTs = Number(sessionStorage.getItem("mhs91_ts") ?? 0)
-    if (cached && Date.now() - cachedTs < 5 * 60 * 1000) {
-      try {
-        setData(JSON.parse(cached))
-        return
-      } catch { /* ignore */ }
+    if (cached) {
+      try { setData(JSON.parse(cached)) } catch { /* ignore */ }
     }
 
-    fetch(CSV_URL)
+    // Cache-bust both the browser cache and any Google CDN cache by appending a
+    // timestamp, and force a fresh request with cache: "no-store".
+    const url = `${CSV_URL}&_=${Date.now()}`
+    fetch(url, { cache: "no-store" })
       .then((r) => r.text())
       .then((text) => {
         if (cancelled) return
         const parsed = parseCSV(text)
         sessionStorage.setItem("mhs91_data", JSON.stringify(parsed))
-        sessionStorage.setItem("mhs91_ts", String(Date.now()))
         setData(parsed)
       })
       .catch(() => {
-        if (!cancelled) setFetchError(true)
+        if (!cancelled && !cached) setFetchError(true)
       })
 
     return () => { cancelled = true }
