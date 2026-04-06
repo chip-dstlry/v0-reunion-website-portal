@@ -51,22 +51,22 @@ export function SubmitContactModal({ classmate, onClose, onSuccess }: SubmitCont
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="bg-navy-card border border-gold/30 rounded-xl w-full max-w-md shadow-2xl">
+      <div className="bg-[#111] border border-white/15 rounded w-full max-w-md shadow-2xl">
         {/* Header */}
-        <div className="px-6 py-5 border-b border-gold/20 flex items-start justify-between gap-4">
+        <div className="px-6 py-5 border-b border-white/10 flex items-start justify-between gap-4">
           <div>
-            <p className="text-muted-cream text-xs uppercase tracking-widest mb-1">Submit Contact Info</p>
-            <h2 className="font-serif text-cream text-xl font-semibold leading-snug">
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-1">Submit Contact Info</p>
+            <h2 className="font-serif text-white text-xl leading-snug">
               {classmate.name}
             </h2>
           </div>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="text-muted-cream hover:text-cream transition-colors mt-0.5"
+            className="text-white/40 hover:text-white transition-colors mt-0.5"
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M4 4l12 12M16 4L4 16" />
@@ -76,51 +76,51 @@ export function SubmitContactModal({ classmate, onClose, onSuccess }: SubmitCont
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="px-6 py-5 flex flex-col gap-4">
-          <p className="text-muted-cream text-sm leading-relaxed">
-            Know how to reach this classmate? Share what you know — the reunion team will verify and update the list.
+          <p className="text-white/50 text-sm leading-relaxed">
+            Share what you know — the reunion team will verify and update the list.
           </p>
 
           <label className="flex flex-col gap-1.5">
-            <span className="text-xs text-muted-cream uppercase tracking-wide">Their Email</span>
+            <span className="text-xs text-white/50 uppercase tracking-wide">Their Email</span>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="classmate@example.com"
-              className="bg-navy border border-gold/20 rounded px-3 py-2 text-cream placeholder:text-muted-cream/50 text-sm focus:outline-none focus:border-gold/60"
+              className="bg-transparent border border-white/20 rounded px-3 py-2.5 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-white/50"
             />
           </label>
 
           <label className="flex flex-col gap-1.5">
-            <span className="text-xs text-muted-cream uppercase tracking-wide">Their Phone</span>
+            <span className="text-xs text-white/50 uppercase tracking-wide">Their Phone</span>
             <input
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="(713) 555-0100"
-              className="bg-navy border border-gold/20 rounded px-3 py-2 text-cream placeholder:text-muted-cream/50 text-sm focus:outline-none focus:border-gold/60"
+              className="bg-transparent border border-white/20 rounded px-3 py-2.5 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-white/50"
             />
           </label>
 
           <label className="flex flex-col gap-1.5">
-            <span className="text-xs text-muted-cream uppercase tracking-wide">Notes (optional)</span>
+            <span className="text-xs text-white/50 uppercase tracking-wide">Notes (optional)</span>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Where did you find this info? Any other context..."
+              placeholder="Any other helpful context..."
               rows={3}
-              className="bg-navy border border-gold/20 rounded px-3 py-2 text-cream placeholder:text-muted-cream/50 text-sm focus:outline-none focus:border-gold/60 resize-none"
+              className="bg-transparent border border-white/20 rounded px-3 py-2.5 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-white/50 resize-none"
             />
           </label>
 
           <label className="flex flex-col gap-1.5">
-            <span className="text-xs text-muted-cream uppercase tracking-wide">Your Name (optional)</span>
+            <span className="text-xs text-white/50 uppercase tracking-wide">Your Name (optional)</span>
             <input
               type="text"
               value={submittedBy}
               onChange={(e) => setSubmittedBy(e.target.value)}
               placeholder="So the team knows who to follow up with"
-              className="bg-navy border border-gold/20 rounded px-3 py-2 text-cream placeholder:text-muted-cream/50 text-sm focus:outline-none focus:border-gold/60"
+              className="bg-transparent border border-white/20 rounded px-3 py-2.5 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-white/50"
             />
           </label>
 
@@ -130,16 +130,16 @@ export function SubmitContactModal({ classmate, onClose, onSuccess }: SubmitCont
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-2.5 rounded border border-gold/30 text-muted-cream text-sm hover:border-gold/60 hover:text-cream transition-colors"
+              className="flex-1 py-3 rounded border border-white/20 text-white/60 text-sm uppercase tracking-wider hover:border-white/40 hover:text-white transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-2.5 rounded bg-gold text-navy text-sm font-semibold hover:bg-gold/90 disabled:opacity-50 transition-colors"
+              className="flex-1 py-3 rounded bg-white text-black text-sm uppercase tracking-wider font-medium hover:bg-white/90 disabled:opacity-50 transition-colors"
             >
-              {loading ? "Submitting..." : "Submit Info"}
+              {loading ? "Submitting..." : "Submit"}
             </button>
           </div>
         </form>

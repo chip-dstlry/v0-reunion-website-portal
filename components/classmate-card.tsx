@@ -15,36 +15,26 @@ export function ClassmateCard({ classmate, onKnowWhere }: ClassmateCardProps) {
     [classmate.city, classmate.state].filter(Boolean).join(", ") || "Location unknown"
 
   return (
-    <div className="bg-navy-card border border-gold/20 rounded-lg p-5 flex flex-col gap-4 hover:border-gold/50 transition-colors">
-      {/* Avatar + name */}
-      <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-full bg-navy border border-gold/30 flex items-center justify-center flex-shrink-0">
-          <span className="font-serif text-gold text-lg font-semibold">{initials || "?"}</span>
-        </div>
-        <div className="min-w-0">
-          <p className="font-serif text-cream font-semibold text-base leading-snug truncate">
-            {classmate.name || "Unknown"}
-          </p>
-          <p className="text-muted-cream text-xs mt-0.5">{location}</p>
-        </div>
+    <div className="border border-white/15 rounded p-6 text-center hover:border-white/30 transition-colors">
+      {/* Avatar */}
+      <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mx-auto mb-4">
+        <span className="font-serif text-white/70 text-xl">{initials || "?"}</span>
       </div>
+      
+      {/* Name */}
+      <p className="font-serif text-white text-lg mb-1">
+        {classmate.name || "Unknown"}
+      </p>
+      
+      {/* Location */}
+      <p className="text-white/40 text-sm mb-6">{location}</p>
 
-      {/* Status badges */}
-      <div className="flex flex-wrap gap-2">
-        <span className="text-xs px-2 py-0.5 rounded-full border border-amber-400/40 text-amber-400 bg-amber-400/10">
-          No email
-        </span>
-        <span className="text-xs px-2 py-0.5 rounded-full border border-amber-400/40 text-amber-400 bg-amber-400/10">
-          No phone
-        </span>
-      </div>
-
-      {/* CTA */}
+      {/* CTA - styled like mhs1991.com buttons */}
       <button
         onClick={() => onKnowWhere(classmate)}
-        className="mt-auto w-full py-2 rounded border border-gold text-gold text-sm font-semibold tracking-wide hover:bg-gold hover:text-navy transition-colors"
+        className="w-full py-3 rounded border border-white/30 text-white/80 text-xs tracking-wider uppercase hover:bg-white hover:text-black transition-colors"
       >
-        Know where they are?
+        I Know Them
       </button>
     </div>
   )
