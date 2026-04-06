@@ -3,6 +3,35 @@
 import { useState } from "react"
 import type { Classmate } from "@/lib/google-sheets"
 
+const C = {
+  cream:    "#f5f0e6",
+  white:    "#ffffff",
+  maroon:   "#8b1a1a",
+  charcoal: "#2d2d2d",
+  gray:     "#888888",
+  border:   "rgba(0,0,0,0.1)",
+}
+
+const inputStyle: React.CSSProperties = {
+  backgroundColor: C.cream,
+  border: `1px solid ${C.border}`,
+  borderRadius: 6,
+  padding: "12px 16px",
+  color: C.charcoal,
+  fontSize: 16,
+  width: "100%",
+  boxSizing: "border-box",
+  outline: "none",
+}
+
+const labelTextStyle: React.CSSProperties = {
+  fontSize: "0.7rem",
+  color: C.gray,
+  textTransform: "uppercase",
+  letterSpacing: "0.08em",
+  fontWeight: 600,
+}
+
 interface ReportPassingFormProps {
   classmates: Classmate[]
   onSuccess: () => void
@@ -32,13 +61,9 @@ export function ReportPassingForm({ classmates, onSuccess }: ReportPassingFormPr
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const name = selectedName || search
-    if (!name.trim()) {
-      setError("Please enter a classmate name.")
-      return
-    }
+    if (!name.trim()) { setError("Please enter a classmate name."); return }
     setLoading(true)
     setError("")
-
     const res = await fetch("/api/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -51,60 +76,49 @@ export function ReportPassingForm({ classmates, onSuccess }: ReportPassingFormPr
         notes: [dateOfPassing ? `Date of passing: ${dateOfPassing}` : "", notes].filter(Boolean).join(" | "),
       }),
     })
-
     setLoading(false)
-    if (res.ok) {
-      setSubmitted(true)
-      onSuccess()
-    } else {
-      setError("Something went wrong. Please try again.")
-    }
+    if (res.ok) { setSubmitted(true); onSuccess() }
+    else setError("Something went wrong. Please try again.")
   }
 
   if (submitted) {
     return (
-      <div className="text-center py-8">
-        <div className="font-serif text-charcoal text-xl font-semibold mb-2">Thank you for letting us know</div>
-        <p className="text-gray text-sm">
-          The reunion team will handle this with care and update our records.
-        </p>
+      <div style={{ textAlign: "center", padding: "2rem 1rem" }}>
+        <p style={{ fontFamily: "var(--font-playfair, serif)", color: C.charcoal, fontSize: "1.25rem", fontWeight: 700, marginBottom: 8 }}>Thank you for letting us know</p>
+        <p style={{ color: C.gray, fontSize: "0.875rem" }}>The reunion team will handle this with care and update our records.</p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-charcoal/10 p-6 flex flex-col gap-5 max-w-md mx-auto">
+    <form onSubmit={handleSubmit} style={{ backgroundColor: C.white, borderRadius: 12, border: `1px solid ${C.border}`, padding: 24, display: "flex", flexDirection: "column", gap: 18, maxWidth: 480, margin: "0 auto" }}>
       {/* Classmate search */}
-      <label className="flex flex-col gap-1.5 relative">
-        <span className="text-xs text-gray uppercase tracking-wide font-medium">Classmate Name</span>
+      <label style={{ display: "flex", flexDirection: "column", gap: 6, position: "relative" }}>
+        <span style={labelTextStyle}>Classmate Name</span>
         <input
           type="text"
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value)
-            setSelectedName("")
-            setShowDropdown(true)
-          }}
+          onChange={(e) => { setSearch(e.target.value); setSelectedName(""); setShowDropdown(true) }}
           onFocus={() => setShowDropdown(true)}
           onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
           placeholder="Start typing a name..."
-          className="bg-cream border border-charcoal/15 rounded px-4 py-3 text-charcoal placeholder:text-gray text-base focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon"
+          style={inputStyle}
         />
         {showDropdown && search.length > 1 && filtered.length > 0 && (
-          <ul className="absolute top-full mt-1 left-0 right-0 bg-white border border-charcoal/15 rounded-lg shadow-xl z-20 max-h-48 overflow-y-auto">
+          <ul style={{ position: "absolute", top: "100%", left: 0, right: 0, backgroundColor: C.white, border: `1px solid ${C.border}`, borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", zIndex: 20, maxHeight: 200, overflowY: "auto", listStyle: "none", margin: "4px 0 0", padding: 0 }}>
             {filtered.map((c) => (
               <li key={c.name}>
                 <button
                   type="button"
                   onMouseDown={() => selectClassmate(c)}
-                  className="w-full text-left px-4 py-3 text-charcoal text-base hover:bg-cream transition-colors min-h-[48px]"
+                  style={{ width: "100%", textAlign: "left", padding: "12px 16px", background: "none", border: "none", color: C.charcoal, fontSize: 15, cursor: "pointer", minHeight: 48 }}
                 >
                   {c.name}
-                  {c.city || c.state ? (
-                    <span className="text-gray ml-2 text-sm">
+                  {(c.city || c.state) && (
+                    <span style={{ color: C.gray, marginLeft: 8, fontSize: 13 }}>
                       {[c.city, c.state].filter(Boolean).join(", ")}
                     </span>
-                  ) : null}
+                  )}
                 </button>
               </li>
             ))}
@@ -112,44 +126,27 @@ export function ReportPassingForm({ classmates, onSuccess }: ReportPassingFormPr
         )}
       </label>
 
-      <label className="flex flex-col gap-1.5">
-        <span className="text-xs text-gray uppercase tracking-wide font-medium">Date of Passing (optional)</span>
-        <input
-          type="date"
-          value={dateOfPassing}
-          onChange={(e) => setDateOfPassing(e.target.value)}
-          className="bg-cream border border-charcoal/15 rounded px-4 py-3 text-charcoal text-base focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon"
-        />
+      <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <span style={labelTextStyle}>Date of Passing (optional)</span>
+        <input type="date" value={dateOfPassing} onChange={(e) => setDateOfPassing(e.target.value)} style={inputStyle} />
       </label>
 
-      <label className="flex flex-col gap-1.5">
-        <span className="text-xs text-gray uppercase tracking-wide font-medium">Source / Notes (optional)</span>
-        <textarea
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder="How did you hear about this? Obituary link, mutual friend, etc."
-          rows={3}
-          className="bg-cream border border-charcoal/15 rounded px-4 py-3 text-charcoal placeholder:text-gray text-base focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon resize-none"
-        />
+      <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <span style={labelTextStyle}>Source / Notes (optional)</span>
+        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Obituary link, mutual friend, etc." rows={3} style={{ ...inputStyle, resize: "none" }} />
       </label>
 
-      <label className="flex flex-col gap-1.5">
-        <span className="text-xs text-gray uppercase tracking-wide font-medium">Your Name (optional)</span>
-        <input
-          type="text"
-          value={submittedBy}
-          onChange={(e) => setSubmittedBy(e.target.value)}
-          placeholder="So the team can follow up if needed"
-          className="bg-cream border border-charcoal/15 rounded px-4 py-3 text-charcoal placeholder:text-gray text-base focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon"
-        />
+      <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <span style={labelTextStyle}>Your Name (optional)</span>
+        <input type="text" value={submittedBy} onChange={(e) => setSubmittedBy(e.target.value)} placeholder="So the team can follow up if needed" style={inputStyle} />
       </label>
 
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      {error && <p style={{ color: "#dc2626", fontSize: "0.875rem", margin: 0 }}>{error}</p>}
 
       <button
         type="submit"
         disabled={loading}
-        className="py-3 min-h-[48px] rounded bg-maroon text-white text-sm uppercase tracking-wider font-semibold hover:bg-maroon-dark disabled:opacity-50 transition-colors"
+        style={{ minHeight: 48, borderRadius: 6, border: "none", backgroundColor: C.maroon, color: C.white, fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, cursor: "pointer", opacity: loading ? 0.6 : 1 }}
       >
         {loading ? "Submitting..." : "Submit Report"}
       </button>
