@@ -86,7 +86,7 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
         {/* Logo / school sign image */}
         <div style={{ maxWidth: mobile ? 320 : 480, margin: mobile ? "0 auto 1.25rem" : "0 auto 2rem" }}>
           <img
-            src="/v0-reunion-website-portal/memorial-sign.jpg"
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/memorial-sign.jpg`}
             alt="Memorial High School Mustangs"
             style={{ width: "100%", borderRadius: mobile ? 12 : 16, boxShadow: "0 4px 24px rgba(0,0,0,0.12)" }}
           />
