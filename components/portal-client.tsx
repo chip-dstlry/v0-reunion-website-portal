@@ -82,15 +82,15 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
     <div style={{ backgroundColor: C.cream, minHeight: "100vh", fontFamily: "inherit" }}>
 
       {/* ── TOP NAV ── */}
-      <nav style={{ backgroundColor: C.cream, borderBottom: `1px solid rgba(0,0,0,0.06)`, padding: mobile ? "12px 16px" : "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-        <a href="https://www.mhs1991.com" target="_blank" rel="noreferrer" aria-label="MHS 1991" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+      <nav style={{ position: "relative", backgroundColor: C.cream, borderBottom: `1px solid rgba(0,0,0,0.06)`, padding: mobile ? "12px 16px" : "16px 32px", display: "flex", alignItems: "center", justifyContent: "center", minHeight: mobile ? 64 : 80 }}>
+        <a href="https://www.mhs1991.com" target="_blank" rel="noreferrer" aria-label="MHS 1991" style={{ position: "absolute", left: mobile ? 16 : 32, top: "50%", transform: "translateY(-50%)", display: "flex", alignItems: "center", textDecoration: "none" }}>
           <img
             src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/mustang-m.svg`}
             alt="MHS Mustangs"
             style={{ height: mobile ? 40 : 52, width: "auto", display: "block" }}
           />
         </a>
-        <div style={{ display: "flex", alignItems: "center", gap: mobile ? 14 : 28 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: mobile ? 14 : 36 }}>
           {[
             { label: "Buy Tickets",   href: "https://www.paypal.com/donate/?hosted_button_id=ABX6RXHQMQZ36" },
             { label: "Upload Photos", href: "https://www.mhs1991.com/blank" },
