@@ -84,15 +84,17 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
       {/* ── TOP NAV ── */}
       <nav style={{ backgroundColor: C.cream, borderBottom: `1px solid rgba(0,0,0,0.06)`, padding: mobile ? "12px 16px" : "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
         <a href="https://www.mhs1991.com" target="_blank" rel="noreferrer" aria-label="MHS 1991" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-          <span style={{ fontFamily: "var(--font-playfair, serif)", color: C.maroon, fontSize: mobile ? "2rem" : "2.5rem", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.02em" }}>
-            M
-          </span>
+          <img
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/mustang-m.svg`}
+            alt="MHS Mustangs"
+            style={{ height: mobile ? 40 : 52, width: "auto", display: "block" }}
+          />
         </a>
         <div style={{ display: "flex", alignItems: "center", gap: mobile ? 14 : 28 }}>
           {[
             { label: "Buy Tickets",   href: "https://www.paypal.com/donate/?hosted_button_id=ABX6RXHQMQZ36" },
-            { label: "Upload Photos", href: "https://www.mhs1991.com" },
-            { label: "Photo Album",   href: "https://www.mhs1991.com" },
+            { label: "Upload Photos", href: "https://www.mhs1991.com/blank" },
+            { label: "Photo Album",   href: "https://photos.google.com/share/AF1QipPCMfX6_Pz_QMgrp8YJ-DJFYvQ4LonZ11HmzQVPMSRo-u5VWcdjY-21cd85qmbx8A?key=cjlFY09TLVp1TXVnOXF6dHpTNVdJWXN2T1FRSmtB" },
           ].map(({ label, href }) => (
             <a
               key={label}
