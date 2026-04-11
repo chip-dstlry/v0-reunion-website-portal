@@ -41,6 +41,7 @@ function parseCSV(text: string): { classmates: Classmate[]; stats: SheetStats } 
     const jobTitle     = deceased ? "" : colT
     const deceasedDate = deceased ? colT : ""
     const employer     = (row[20] ?? "").trim()
+    const obituaryUrl  = (row[24] ?? "").trim()
 
     const displayLast  = currentLast || maidenLast
     const displayFirst = commonFirst || officialName.split(",")[1]?.trim().split(" ")[0] || ""
@@ -61,6 +62,7 @@ function parseCSV(text: string): { classmates: Classmate[]; stats: SheetStats } 
       employer,
       deceased,
       deceasedDate,
+      obituaryUrl,
       isMostWanted: !email && !phone && !deceased,
     }
   }).sort((a, b) => a.lastName.localeCompare(b.lastName))

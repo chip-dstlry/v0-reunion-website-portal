@@ -10,6 +10,7 @@ export type Classmate = {
   employer: string
   deceased: boolean
   deceasedDate: string
+  obituaryUrl: string
   isMostWanted: boolean
 }
 

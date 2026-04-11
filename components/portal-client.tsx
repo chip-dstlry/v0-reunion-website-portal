@@ -35,11 +35,6 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
   const mostWanted = useMemo(() => classmates.filter((c) => c.isMostWanted), [classmates])
   const inMemoriam = useMemo(() => classmates.filter((c) => c.deceased), [classmates])
 
-  // Obituary links keyed by classmate display name (case-insensitive match)
-  const OBITUARIES: Record<string, string> = {
-    "wesley alford": "https://www.newspapers.com/article/the-times-obituary-for-wesley-hunt-alfor/56814241/",
-  }
-
   const LETTER_GROUPS = [
     ["A","B","C","D"],
     ["E","F","G","H"],
@@ -359,9 +354,9 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
                       {c.deceasedDate && (
                         <p style={{ color: C.gray, fontSize: "0.75rem", margin: "2px 0 0", fontStyle: "italic" }}>{c.deceasedDate}</p>
                       )}
-                      {OBITUARIES[c.name.toLowerCase()] && (
+                      {c.obituaryUrl && (
                         <a
-                          href={OBITUARIES[c.name.toLowerCase()]}
+                          href={c.obituaryUrl}
                           target="_blank"
                           rel="noreferrer"
                           style={{ color: C.maroon, fontSize: "0.7rem", textDecoration: "underline", letterSpacing: "0.02em", marginTop: 2, display: "inline-block" }}
