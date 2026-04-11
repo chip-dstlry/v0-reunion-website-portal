@@ -386,7 +386,7 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
       </section>
 
       {/* ── REPORT A PASSING ── */}
-      <section style={{ backgroundColor: C.cream, padding: mobile ? "2.5rem 0.75rem" : "4rem 1rem" }}>
+      <section id="report-passing" style={{ backgroundColor: C.cream, padding: mobile ? "2.5rem 0.75rem" : "4rem 1rem", scrollMarginTop: mobile ? 80 : 96 }}>
         <div style={{ maxWidth: 640, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: mobile ? "1.5rem" : "2.5rem" }}>
             <h2 style={{ fontFamily: "var(--font-playfair, serif)", color: C.charcoal, fontSize: mobile ? "1.4rem" : "clamp(1.5rem, 4vw, 2rem)", fontWeight: 700, margin: "0 0 0.75rem" }}>
