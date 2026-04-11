@@ -83,7 +83,7 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
 
       {/* ── TOP NAV ── */}
       <nav style={{ position: "relative", backgroundColor: C.cream, borderBottom: `1px solid rgba(0,0,0,0.06)`, padding: mobile ? "12px 16px" : "16px 32px", display: "flex", alignItems: "center", justifyContent: "center", minHeight: mobile ? 64 : 80 }}>
-        <a href="https://www.mhs1991.com" target="_blank" rel="noreferrer" aria-label="MHS 1991" style={{ position: "absolute", left: mobile ? 16 : 32, top: "50%", transform: "translateY(-50%)", display: "flex", alignItems: "center", textDecoration: "none" }}>
+        <a href="https://www.mhs1991.com" aria-label="MHS 1991" style={{ position: "absolute", left: mobile ? 16 : 32, top: "50%", transform: "translateY(-50%)", display: "flex", alignItems: "center", textDecoration: "none" }}>
           <img
             src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/mustang-m.svg`}
             alt="MHS Mustangs"
@@ -99,8 +99,6 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
             <a
               key={label}
               href={href}
-              target="_blank"
-              rel="noreferrer"
               style={{
                 color: C.charcoal,
                 fontSize: mobile ? "0.75rem" : "0.95rem",
@@ -357,8 +355,6 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
                       {c.obituaryUrl && (
                         <a
                           href={c.obituaryUrl}
-                          target="_blank"
-                          rel="noreferrer"
                           style={{ color: C.maroon, fontSize: "0.7rem", textDecoration: "underline", letterSpacing: "0.02em", marginTop: 2, display: "inline-block" }}
                         >
                           Obituary
@@ -383,8 +379,6 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
         </p>
         <a
           href="https://www.mhs1991.com/home-1"
-          target="_blank"
-          rel="noreferrer"
           style={{ display: mobile ? "block" : "inline-block", backgroundColor: C.white, color: C.maroon, fontWeight: 700, fontSize: "0.8rem", letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", borderRadius: 4, minHeight: 48, lineHeight: "48px", maxWidth: mobile ? 280 : "none", margin: mobile ? "0 auto" : undefined }}
         >
           Purchase Tickets
@@ -413,7 +407,7 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
         </p>
         <p style={{ color: C.gray, fontSize: mobile ? "0.8rem" : "0.875rem", margin: 0 }}>
           Questions?{" "}
-          <a href="https://www.mhs1991.com" target="_blank" rel="noreferrer" style={{ color: C.maroon }}>
+          <a href="https://www.mhs1991.com" style={{ color: C.maroon }}>
             Visit mhs1991.com
           </a>
         </p>
