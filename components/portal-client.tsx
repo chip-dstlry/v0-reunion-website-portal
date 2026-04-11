@@ -92,7 +92,7 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
         </a>
         <div style={{ display: "flex", alignItems: "center", gap: mobile ? 14 : 36 }}>
           {[
-            { label: "Buy Tickets",   href: "https://www.paypal.com/donate/?hosted_button_id=ABX6RXHQMQZ36" },
+            { label: "Buy Tickets",   href: "https://www.mhs1991.com/home-1" },
             { label: "Upload Photos", href: "https://www.mhs1991.com/blank" },
             { label: "Photo Album",   href: "https://photos.google.com/share/AF1QipPCMfX6_Pz_QMgrp8YJ-DJFYvQ4LonZ11HmzQVPMSRo-u5VWcdjY-21cd85qmbx8A?key=cjlFY09TLVp1TXVnOXF6dHpTNVdJWXN2T1FRSmtB" },
           ].map(({ label, href }) => (
@@ -382,7 +382,7 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
           A night of nostalgia and celebration awaits. Join your fellow Memorial High alumni at the Houston Racquet Club on November 14, 2026.
         </p>
         <a
-          href="https://www.paypal.com/donate/?hosted_button_id=ABX6RXHQMQZ36"
+          href="https://www.mhs1991.com/home-1"
           target="_blank"
           rel="noreferrer"
           style={{ display: mobile ? "block" : "inline-block", backgroundColor: C.white, color: C.maroon, fontWeight: 700, fontSize: "0.8rem", letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", borderRadius: 4, minHeight: 48, lineHeight: "48px", maxWidth: mobile ? 280 : "none", margin: mobile ? "0 auto" : undefined }}
