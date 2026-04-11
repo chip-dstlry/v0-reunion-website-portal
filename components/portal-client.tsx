@@ -81,6 +81,38 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
   return (
     <div style={{ backgroundColor: C.cream, minHeight: "100vh", fontFamily: "inherit" }}>
 
+      {/* ── TOP NAV ── */}
+      <nav style={{ backgroundColor: C.cream, borderBottom: `1px solid rgba(0,0,0,0.06)`, padding: mobile ? "12px 16px" : "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+        <a href="https://www.mhs1991.com" target="_blank" rel="noreferrer" aria-label="MHS 1991" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+          <span style={{ fontFamily: "var(--font-playfair, serif)", color: C.maroon, fontSize: mobile ? "2rem" : "2.5rem", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.02em" }}>
+            M
+          </span>
+        </a>
+        <div style={{ display: "flex", alignItems: "center", gap: mobile ? 14 : 28 }}>
+          {[
+            { label: "Buy Tickets",   href: "https://www.paypal.com/donate/?hosted_button_id=ABX6RXHQMQZ36" },
+            { label: "Upload Photos", href: "https://www.mhs1991.com" },
+            { label: "Photo Album",   href: "https://www.mhs1991.com" },
+          ].map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: C.charcoal,
+                fontSize: mobile ? "0.75rem" : "0.95rem",
+                fontWeight: 500,
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+      </nav>
+
       {/* ── HERO ── */}
       <header style={{ backgroundColor: C.cream, textAlign: "center", padding: mobile ? "1.25rem 1rem 2rem" : "2rem 1rem 3rem" }}>
         {/* Logo / school sign image */}
