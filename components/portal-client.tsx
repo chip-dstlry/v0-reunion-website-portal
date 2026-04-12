@@ -30,6 +30,7 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
   const [activeTab, setActiveTab] = useState<"wanted" | "memoriam">("wanted")
   const [activeGroup, setActiveGroup] = useState<string[] | null>(null)
   const [visibleCount, setVisibleCount] = useState(24)
+  const [menuOpen, setMenuOpen] = useState(false)
   const mobile = useIsMobile()
 
   const mostWanted = useMemo(() => classmates.filter((c) => c.isMostWanted), [classmates])
@@ -72,6 +73,26 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
     setVisibleCount(24)
   }, [search, activeGroup])
 
+  // Close mobile menu when switching to desktop
+  useEffect(() => {
+    if (!mobile) setMenuOpen(false)
+  }, [mobile])
+
+  // Lock body scroll while menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      const prev = document.body.style.overflow
+      document.body.style.overflow = "hidden"
+      return () => { document.body.style.overflow = prev }
+    }
+  }, [menuOpen])
+
+  const NAV_LINKS = [
+    { label: "Buy Tickets",   href: "https://www.mhs1991.com/home-1" },
+    { label: "Upload Photos", href: "https://www.mhs1991.com/blank" },
+    { label: "Photo Album",   href: "https://photos.google.com/share/AF1QipPCMfX6_Pz_QMgrp8YJ-DJFYvQ4LonZ11HmzQVPMSRo-u5VWcdjY-21cd85qmbx8A?key=cjlFY09TLVp1TXVnOXF6dHpTNVdJWXN2T1FRSmtB" },
+  ]
+
   function handleSuccess() {
     setSelectedClassmate(null)
     setShowSuccess(true)
@@ -82,7 +103,7 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
     <div style={{ backgroundColor: C.cream, minHeight: "100vh", fontFamily: "inherit" }}>
 
       {/* ── TOP NAV ── */}
-      <nav style={{ position: "relative", backgroundColor: C.cream, borderBottom: `1px solid rgba(0,0,0,0.06)`, padding: mobile ? "10px 12px 12px" : "16px 32px", display: "flex", flexDirection: mobile ? "column" : "row", alignItems: "center", justifyContent: "center", gap: mobile ? 8 : 0, minHeight: mobile ? 0 : 80 }}>
+      <nav style={{ position: "relative", backgroundColor: C.cream, borderBottom: `1px solid rgba(0,0,0,0.06)`, padding: mobile ? "12px 16px" : "16px 32px", display: "flex", alignItems: "center", justifyContent: mobile ? "space-between" : "center", minHeight: mobile ? 0 : 80 }}>
         <a
           href="https://www.mhs1991.com"
           aria-label="MHS 1991"
@@ -101,28 +122,106 @@ export function PortalClient({ classmates, stats }: PortalClientProps) {
             style={{ height: mobile ? 44 : 52, width: "auto", display: "block" }}
           />
         </a>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: mobile ? 18 : 36, flexWrap: "wrap" }}>
-          {[
-            { label: "Buy Tickets",   href: "https://www.mhs1991.com/home-1" },
-            { label: "Upload Photos", href: "https://www.mhs1991.com/blank" },
-            { label: "Photo Album",   href: "https://photos.google.com/share/AF1QipPCMfX6_Pz_QMgrp8YJ-DJFYvQ4LonZ11HmzQVPMSRo-u5VWcdjY-21cd85qmbx8A?key=cjlFY09TLVp1TXVnOXF6dHpTNVdJWXN2T1FRSmtB" },
-          ].map(({ label, href }) => (
-            <a
-              key={label}
-              href={href}
+
+        {/* Desktop links */}
+        {!mobile && (
+          <div style={{ display: "flex", alignItems: "center", gap: 36 }}>
+            {NAV_LINKS.map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                style={{
+                  color: C.charcoal,
+                  fontSize: "0.95rem",
+                  fontWeight: 500,
+                  textDecoration: "none",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Mobile hamburger */}
+        {mobile && (
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+            style={{
+              background: "none",
+              border: "none",
+              padding: 8,
+              cursor: "pointer",
+              display: "flex",
+              flexDirection: "column",
+              gap: 5,
+              minWidth: 44,
+              minHeight: 44,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span style={{ width: 24, height: 2, backgroundColor: C.charcoal, display: "block" }} />
+            <span style={{ width: 24, height: 2, backgroundColor: C.charcoal, display: "block" }} />
+            <span style={{ width: 24, height: 2, backgroundColor: C.charcoal, display: "block" }} />
+          </button>
+        )}
+      </nav>
+
+      {/* ── MOBILE MENU OVERLAY ── */}
+      {mobile && menuOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
+          style={{ position: "fixed", inset: 0, zIndex: 60, backgroundColor: C.cream, display: "flex", flexDirection: "column" }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "12px 16px", minHeight: 64 }}>
+            <button
+              type="button"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close menu"
               style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                minWidth: 44,
+                minHeight: 44,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 color: C.charcoal,
-                fontSize: mobile ? "0.8rem" : "0.95rem",
-                fontWeight: 500,
-                textDecoration: "none",
-                whiteSpace: "nowrap",
               }}
             >
-              {label}
-            </a>
-          ))}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </button>
+          </div>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 28, padding: "20px 32px 40px" }}>
+            {NAV_LINKS.map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  fontFamily: "var(--font-playfair, serif)",
+                  color: C.charcoal,
+                  fontSize: "1.5rem",
+                  fontWeight: 500,
+                  textDecoration: "none",
+                }}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
         </div>
-      </nav>
+      )}
 
       {/* ── HERO ── */}
       <header style={{ backgroundColor: C.cream, textAlign: "center", padding: mobile ? "1.25rem 1rem 2rem" : "2rem 1rem 3rem" }}>
